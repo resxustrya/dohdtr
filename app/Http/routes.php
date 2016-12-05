@@ -17,16 +17,22 @@ Route::get('/', function(){
     }
     return view('auth.login');
 });
+Route::get('login',function(){
+    return view('auth.login');
+});
 Route::post('/signin','AccountController@index');
 
 
 //dashboard
 Route::get('dashboard','DashboardController@index');
+Route::match(['get','post'],'upload', 'DtrController@upload');
+Route::get('list', 'DtrController@dtr_list');
 
 Route::get('/clear', function(){
     Session::flush();
     return redirect('/');
 });
-
-
-
+Route::get('logout', 'AccountController@logout');
+Route::get('angular', function(){
+    return view('angular');
+});

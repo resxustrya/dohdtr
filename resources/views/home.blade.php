@@ -14,4 +14,6 @@
         </div>
     </div>
 </div>
+<div class="container-fluid">
+</div>
 @endsection

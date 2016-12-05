@@ -11,15 +11,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class AccountController extends Controller
 {
     public function index(Request $request) {
-        if(Auth::attempt(array(
-            'username' => $request->input('username'),
-            'password' => $request->input('password')
-        ))) {
-            return redirect()->intended('dashboard');
+        try{
+            if(Auth::attempt(array(
+                'username' => $request->input('username'),
+                'password' => $request->input('password')
+            ))) {
+                return redirect()->intended('dashboard');
+            }
+        }catch(Exception $ex){
+            return redirect()->intended();
         }
         return redirect('/')->with('error','Login Failed');
     }
@@ -27,4 +32,5 @@ class AccountController extends Controller
         Session::flush();
         return redirect('/');
     }
+    
 }

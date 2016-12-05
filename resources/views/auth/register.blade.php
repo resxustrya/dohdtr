@@ -80,3 +80,13 @@
     </div>
 </div>
 @endsection
+@section('js')
+  @@parent
+  <script>
+    (function($){
+      $('button[type="submit"]').click(function(){
+
+      });
+    })($);
+  </script>
+@endsection

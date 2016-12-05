@@ -4,13 +4,17 @@ html {
     position: relative;
     min-height: 100%;
 }
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 60px;
-    background-color: #3c763d;
+    background-color:forestgreen;
 }
 
 
@@ -32,4 +36,12 @@ body > .container {
 
 code {
     font-size: 80%;
+}
+#file_select {
+    padding: 20px;
+    border: dashed;
+}
+#file_select hover {
+    cursor: pointer;
+    cursor:hand;
 }
