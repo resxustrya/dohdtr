@@ -17,11 +17,11 @@
                             <th>Status</th>
                             <th>Assgined</th>
                         </tr>
-                        <tr ng-repeat="note in a.notes" ng-class="a.getNoteClass(note.done)">
-                            <td>[[ note.label ]]</td>
-                            <td>[[ note.done ]] </td>
-                            <td ng-show="note.assignee" ng-bind="note.assignee"></td>
-                        </tr>
+                        <div ng-repeat="(author, note) in a.notes">
+                            <strong class="label">[[ note.name ]]</strong>
+                            <strong class="author" ng-bind="author"></strong>
+                            <strong class="author" ng-bind="note.done"></strong>
+                        </div>
                     </table>
                 </div>
             </div>
@@ -45,20 +45,22 @@
         }])
         .controller('inputController',[function(){
             var self = this;
-            self.notes = [
-                {label : 'First Note', done :false, assignee : 'Lourence'},
-                {label : '1 Note', done :false},
-                {label : '2Note', done :true, assignee : 'Rex'},
-                {label : '3 Note', done :false},
-                {label : '4 Note', done :true},
-                {label : '5 Note', done :false, assignee : 'Lourence'},
-                {label : '6 Note', done :true, assignee : 'Rexus'},
-            ];
-            self.getNoteClass = function(status){
-                return {
-                  done : status,
-                  pending : !status
-                };
+            self.notes = {
+                n1 : {
+                    id : 1,
+                    name : "Lourence",
+                    done : false
+                },
+                n2 : {
+                    id : 2,
+                    name : "Rexus Traya",
+                    done : true
+                },
+                n3 : {
+                    id : 3,
+                    name : "Rexus Lourence",
+                    done : false
+                }
             };
         }]);
     </script>
