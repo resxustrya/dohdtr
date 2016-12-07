@@ -6,9 +6,16 @@
         <div ng-app="myApp" class="container">
             <div class="row">
                 <div ng-controller="dataController as a" class="col-md-6">
-                    <strong>[[ a.message ]]</strong>
-                    <strong>[[ a.name ]]</strong>
-                    <button class="btn btn-default" ng-click="a.changeMessage()">Save changes</button>
+                    <div>
+                        <input type="text" ng-model="salary" name="salary" placeholder="Enter Salary" />
+                    </div>
+                    <div>
+                        <input type="text" ng-model="percentage" name="percentage" placeholder="Percentage" />
+                    </div>
+                    <div><strong class="label-info">Result is :</strong>[[ result() ]]</div>
+                    <div>
+                        <strong ng-bind="date"></strong>
+                    </div>
                 </div>
                 <div ng-controller="inputController as a" class="col-md-6">
                     <table class="table table-bordered">
@@ -31,37 +38,38 @@
 @section('js')
     @@parent
     <script>
-        angular.module('myApp', [],function($interpolateProvider){
-            $interpolateProvider.startSymbol('[[');
-            $interpolateProvider.endSymbol(']]');
-        })
-        .controller('dataController',[function(){
-            var self = this;
-            self.name = "Lourence Rex B. Traya";
-            self.changeMessage = function(){
-                console.log('Hello World');
-                self.message = "Hi";
-            };
-        }])
-        .controller('inputController',[function(){
-            var self = this;
-            self.notes = {
-                n1 : {
-                    id : 1,
-                    name : "Lourence",
-                    done : false
-                },
-                n2 : {
-                    id : 2,
-                    name : "Rexus Traya",
-                    done : true
-                },
-                n3 : {
-                    id : 3,
-                    name : "Rexus Lourence",
-                    done : false
-                }
-            };
-        }]);
+        (function(){
+            angular.module('myApp', [],function($interpolateProvider){
+                        $interpolateProvider.startSymbol('[[');
+                        $interpolateProvider.endSymbol(']]');
+                    })
+                    .controller('dataController',function($scope){
+                        $scope.salary = 0.0;
+                        $scope.percentage = 0.0;
+                        $scope.result = function() {
+                            return ($scope.percentage * 0.01) * $scope.salary;
+                        }
+                    })
+                    .controller('inputController',[function(){
+                        var self = this;
+                        self.notes = {
+                            n1 : {
+                                id : 1,
+                                name : "Lourence",
+                                done : false
+                            },
+                            n2 : {
+                                id : 2,
+                                name : "Rexus Traya",
+                                done : true
+                            },
+                            n3 : {
+                                id : 3,
+                                name : "Rexus Lourence",
+                                done : false
+                            }
+                        };
+                    }]);
+        })();
     </script>
 @endsection

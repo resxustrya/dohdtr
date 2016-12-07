@@ -22,7 +22,7 @@
     </style>
 </head>
 <body ng-app="myApp" class="ng-cloak">
-@include('dashboard.menu')
+@include('personal.menu')
 @yield('content')
 <footer class="footer">
     <div class="container">

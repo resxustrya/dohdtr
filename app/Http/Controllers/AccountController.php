@@ -21,7 +21,12 @@ class AccountController extends Controller
                 'username' => $request->input('username'),
                 'password' => $request->input('password')
             ))) {
-                return redirect()->intended('dashboard');
+                if(Auth::user()->usertype == 1){
+                    return redirect('dashboard');
+                }
+                if(Auth::user()->usertype == 0){
+                    return redirect('personal/user');
+                }
             }
         }catch(Exception $ex){
             return redirect()->intended();

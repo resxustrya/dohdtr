@@ -59,6 +59,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
             <ul>
                 <li><a href="#">Account Settings</a></li>
+                <li><a href="{{ asset('user') }}">Users</a></li>
                 <li><a href="{{ asset('logout') }}">Logout</a></li>
             </ul>
         </li>

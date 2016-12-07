@@ -1,4 +1,5 @@
 @extends('dashboard.layout')
+@section('title', 'Upload File')
 @section('content')
     <div class="container-fluid">
         <div class="row">

@@ -8,14 +8,16 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\DtrDetails;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 class DtrController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
     }
     public function upload(Request $request) {
         //GET Request
@@ -59,6 +61,17 @@ class DtrController extends Controller
                         $details->terminal = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
                         $details->remark = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
                         $details->save();
+                        $user = User::where('userid',$details->userid)->first();
+                        if( !isset($user) and !count($user) > 0){
+                            $user = new User();
+                            $user->fname = $details->firstname;
+                            $user->lname = $details->lastname;
+                            $user->userid = $details->userid;
+                            $user->username = $details->userid;
+                            $user->password = Hash::make($details->userid);
+                            $user->usertype = 0;
+                            $user->save();
+                        }
                     } catch (Exception $ex) {
                         return json_encode(array('status' => $ex->getMessage() . "At line :" .$ex->getLine()));
                         break;

@@ -13,7 +13,12 @@
 
 Route::get('/', function(){
     if(Auth::check()){
-        return redirect('dashboard');
+        if(Request::user()->usertype == 1){
+            return redirect('dashboard');
+        }
+        if(Request::user()->usertype == 0){
+            return redirect('personal/user');
+        }
     }
     return view('auth.login');
 });
@@ -28,10 +33,14 @@ Route::get('dashboard','DashboardController@index');
 Route::match(['get','post'],'upload', 'DtrController@upload');
 Route::get('list', 'DtrController@dtr_list');
 
+
+//PERSONAL USER
+Route::get('personal/user','PersonalController@index');
 Route::get('/clear', function(){
     Session::flush();
     return redirect('/');
 });
+
 Route::get('logout', 'AccountController@logout');
 Route::get('angular', function(){
     return view('angular');
