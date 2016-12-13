@@ -2,74 +2,50 @@
 
 @section('content')
     <div class="alert alert-success ng-cloak">
-        <h1 class="text-center">Angular 1</h1>
-        <div ng-app="myApp" class="container">
-            <div class="row">
-                <div ng-controller="dataController as a" class="col-md-6">
-                    <div>
-                        <input type="text" ng-model="salary" name="salary" placeholder="Enter Salary" />
-                    </div>
-                    <div>
-                        <input type="text" ng-model="percentage" name="percentage" placeholder="Percentage" />
-                    </div>
-                    <div><strong class="label-info">Result is :</strong>[[ result() ]]</div>
-                    <div>
-                        <strong ng-bind="date"></strong>
-                    </div>
-                </div>
-                <div ng-controller="inputController as a" class="col-md-6">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Label</th>
-                            <th>Status</th>
-                            <th>Assgined</th>
-                        </tr>
-                        <div ng-repeat="(author, note) in a.notes">
-                            <strong class="label">[[ note.name ]]</strong>
-                            <strong class="author" ng-bind="author"></strong>
-                            <strong class="author" ng-bind="note.done"></strong>
-                        </div>
-                    </table>
+        <div class="row">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:1000px;">
+                    60%
                 </div>
             </div>
+        </div>
+        <h1 class="text-center">Angular 1</h1>
+        <div ng-app="myApp" class="container">
+            <span data-link="{{asset('deploy')}}" id="link"></span>
+            <span id="token" data-token="{{ csrf_token() }}"></span>
+            <input class="form-control" type="file" id="file" name="file" />
         </div>
     </div>
 @endsection
 @section('js')
     @@parent
     <script>
-        (function(){
-            angular.module('myApp', [],function($interpolateProvider){
-                        $interpolateProvider.startSymbol('[[');
-                        $interpolateProvider.endSymbol(']]');
-                    })
-                    .controller('dataController',function($scope){
-                        $scope.salary = 0.0;
-                        $scope.percentage = 0.0;
-                        $scope.result = function() {
-                            return ($scope.percentage * 0.01) * $scope.salary;
+        var percent = 0;
+        (function ($) {
+            $('#file').change(function(event){
+
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function(progress){
+                    //console.log(this.result);
+                    var lines = this.result.split('\n');
+                    for (var line = 0; line < 10;line++) {
+                        if(line == 0){
+                            continue;
                         }
-                    })
-                    .controller('inputController',[function(){
-                        var self = this;
-                        self.notes = {
-                            n1 : {
-                                id : 1,
-                                name : "Lourence",
-                                done : false
-                            },
-                            n2 : {
-                                id : 2,
-                                name : "Rexus Traya",
-                                done : true
-                            },
-                            n3 : {
-                                id : 3,
-                                name : "Rexus Lourence",
-                                done : false
-                            }
+                        var data = {
+                            line : lines[line],
+                            _token : $('#token').data('token'),
+                            percent : percent
                         };
-                    }]);
-        })();
+                        $.post($('#link').data('link'),data,function(response){
+                            var res = JSON.parse(response);
+                           console.log(res);
+                        });
+                    }
+                };
+                reader.readAsText(file);
+            });
+        })($);
     </script>
 @endsection

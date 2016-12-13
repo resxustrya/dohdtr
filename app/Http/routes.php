@@ -32,10 +32,13 @@ Route::post('/signin','AccountController@index');
 Route::get('dashboard','DashboardController@index');
 Route::match(['get','post'],'upload', 'DtrController@upload');
 Route::get('list', 'DtrController@dtr_list');
-
+Route::post('search','DtrController@search');
 
 //PERSONAL USER
 Route::get('personal/user','PersonalController@index');
+Route::get('attendance','PersonalController@attendance');
+Route::post('personal/filter','PersonalController@filter');
+
 Route::get('/clear', function(){
     Session::flush();
     return redirect('/');
@@ -45,3 +48,9 @@ Route::get('logout', 'AccountController@logout');
 Route::get('angular', function(){
     return view('angular');
 });
+
+
+Route::get('table', function(){
+   return view('dashboard.scroll');
+});
+Route::post('deploy','TestController@upload');

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\DtrDetails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 class DtrController extends Controller
 {
     public function __construct()
@@ -56,11 +57,11 @@ class DtrController extends Controller
                             $details->time_m = trim($time[1], "\" ");
                             $details->time_s = trim($time[2], "\" ");
                         }
-
                         $details->event = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
                         $details->terminal = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
                         $details->remark = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
                         $details->save();
+                        /* FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
                         $user = User::where('userid',$details->userid)->first();
                         if( !isset($user) and !count($user) > 0){
                             $user = new User();
@@ -72,6 +73,7 @@ class DtrController extends Controller
                             $user->usertype = 0;
                             $user->save();
                         }
+                        */
                     } catch (Exception $ex) {
                         return json_encode(array('status' => $ex->getMessage() . "At line :" .$ex->getLine()));
                         break;
@@ -83,10 +85,31 @@ class DtrController extends Controller
     }
     public function dtr_list(Request $request){
         $lists = DB::table('dtr_file')
-            ->where('userid','<>', "")
+            ->where('userid','<>', NULL)
             ->orderBy('lastname', 'ASC')
             ->groupBy('userid')
             ->paginate(30);
         return view('dashboard.dtrlist')->with('lists',$lists);
+    }
+    public function search(Request $request){
+        $search = null;
+        ini_set('max_execution_time',1000);
+        if($request->has('search')){
+            Session::put('search', $request->input('search'));
+            $search = Input::get('search');
+        }
+        if(Session::has('search')){
+            $search = Session::get('search');
+        }
+        $dtr = DtrDetails::where('firstname', 'LIKE', '%'. $search .'%')
+            ->orWhere('lastname', 'LIKE', '%'. $search . '%')
+            ->orWhere('userid', '=', $search)
+            ->orWhere('firstname', 'LIKE', '%' . $search . '%')
+            ->orderBy('firstname','ASC')
+            ->orderby('lastname', 'ASC')
+            ->groupBy('userid')
+            ->paginate(20);
+
+        return view('dashboard.dtrlist')->with('lists', $dtr);
     }
 }

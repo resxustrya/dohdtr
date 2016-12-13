@@ -2,32 +2,34 @@
 @section('title', 'Upload File')
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default" style="background-color: #fff;margin-top: 0px;">
-                    <div class="container">
-                        <div class="page-header">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                    <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. The system is extracting data from the file.</strong>
+        <div class="alert">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default" style="background-color: #fff;margin-top: 0px;">
+                        <div class="container">
+                            <div class="page-header">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                        <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. The system is extracting data from the file.</strong>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="alert alert-warning alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Warning!</strong>You selected an invalid file. Select a file that ends with .txt file extension.
-                            </div>
-                            <div class="row upload-section">
-                                <div class="alert-success alert col-md-6 col-lg-offset-3">
-                                    <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
-                                    <form id="form_upload" data-link="{{ asset('upload') }}" action="{{ asset('upload') }}" method="POST" enctype="multipart/form-data">
-                                        <input type="file" class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                        <p class="text-center" id="file_select">
-                                            Click here to select a file
-                                        </p>
-                                        <button type="submit"  class="btn-lg btn-success center-block" id="upload">Upload File</button>
-                                    </form>
+                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>Warning!</strong>You selected an invalid file. Select a file that ends with .txt file extension.
+                                </div>
+                                <div class="row upload-section">
+                                    <div class="alert-success alert col-md-6 col-lg-offset-3">
+                                        <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
+                                        <form id="form_upload" data-link="{{ asset('upload') }}" action="{{ asset('upload') }}" method="POST" enctype="multipart/form-data">
+                                            <input type="file" class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                            <p class="text-center" id="file_select">
+                                                Click here to select a file
+                                            </p>
+                                            <button type="submit"  class="btn-lg btn-success center-block" id="upload">Upload File</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
