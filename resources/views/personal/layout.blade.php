@@ -12,7 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/menu/custom.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/bootstrap/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/bootstrap/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/css/loading.css') }}" />
     <script src="{{ asset('resources/assets/angular/angular.js')}}"></script>
+    <script src="{{ asset('resources/assets/js/spin.js') }}"></script>
     <script>
         var myApp = angular.module('myApp', [], function($interpolateProvider) {
             $interpolateProvider.startSymbol('[[');
@@ -31,7 +33,6 @@
 <script src="{{ asset('resources/assets/bootstrap/datepicer/js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/menu/jquery.smartmenus.js') }}"></script>
 <script src="{{ asset('resources/assets/menu/custom.js') }}"></script>
-
 <script src="{{ asset('resources/assets/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}"></script>
 <script>

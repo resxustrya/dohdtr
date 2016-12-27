@@ -4,9 +4,13 @@
     <div class="alert alert-success ng-cloak">
         <div class="row">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:1000px;">
-                    60%
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <strong class="text-center" style="font-size: medium;font-weight: bold;">
+                        Please wait. The system is extracting data from the file.
+                        <span id="count"></span> / <span class="total"></span>
+                    </strong>
                 </div>
+
             </div>
         </div>
         <h1 class="text-center">Angular 1</h1>
@@ -22,27 +26,36 @@
     <script>
         var percent = 0;
         (function ($) {
+            $('.progress').hide();
             $('#file').change(function(event){
-
+                $('.progress').show();
                 var file = this.files[0];
                 var reader = new FileReader();
                 reader.onload = function(progress){
-                    //console.log(this.result);
                     var lines = this.result.split('\n');
-                    for (var line = 0; line < 10;line++) {
-                        if(line == 0){
-                            continue;
+                    var token = $('#token').data('token');
+                    var count = lines.length;
+                    $('.total').text(count);
+                    setTimeout(function(){
+                        for (var line = 0; line < lines.length;line++) {
+                            if(line == 0 ){
+                                continue;
+                            }
+                            var data = {
+                                line : lines[line],
+                                _token : token
+                            };
+                            $.get($('#link').data('link'),data,function(response){
+                                var res = JSON.parse(response);
+                                console.log(res.status);
+                                if(res.status == "ok"){
+                                    console.log(res.status);
+                                    var per = (percent  / 100 ) * 100;
+                                    $('.progress-bar').css("width" , per+"%");
+                                }
+                            });
                         }
-                        var data = {
-                            line : lines[line],
-                            _token : $('#token').data('token'),
-                            percent : percent
-                        };
-                        $.post($('#link').data('link'),data,function(response){
-                            var res = JSON.parse(response);
-                           console.log(res);
-                        });
-                    }
+                    },600);
                 };
                 reader.readAsText(file);
             });

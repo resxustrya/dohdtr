@@ -37,7 +37,7 @@ Route::post('search','DtrController@search');
 //PERSONAL USER
 Route::get('personal/user','PersonalController@index');
 Route::get('attendance','PersonalController@attendance');
-Route::post('personal/filter','PersonalController@filter');
+Route::get('personal/filter','PersonalController@filter');
 
 Route::get('/clear', function(){
     Session::flush();
@@ -53,4 +53,4 @@ Route::get('angular', function(){
 Route::get('table', function(){
    return view('dashboard.scroll');
 });
-Route::post('deploy','TestController@upload');
+Route::get('deploy','TestController@upload');
